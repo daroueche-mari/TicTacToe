@@ -4,14 +4,12 @@ import sys
 
 # Initialisation de Pygame et des paramètres du jeu
 pygame.init()
-size = 600 # Taille de la fenêtre
-grid = 3   # Taille de la grille (3x3)
-box = size // grid   # Taille d'une case
+size = 600 
+grid = 3   
+box = size // grid   
 player_wins = 0
 ai_wins = 0
 draws = 0
-
-# Définition des couleurs utilisées
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
@@ -20,31 +18,25 @@ dark_green = (0, 150, 0)
 grey = (200, 200, 200)
 brown = (139, 69, 19)
 blue = (0, 0, 255)
-# Création de la fenêtre de jeu avec une zone supplémentaire pour les messages
 screen = pygame.display.set_mode((size, size + 100))
 # Dessine la grille de jeu et les symboles X et O
 def draw_tray(board):
     screen.fill(green)
-     # Dessin des lignes de la grille
     for i in range(1, grid):
         pygame.draw.line(screen, white, (0, i * box), (size, i * box), 5)
         pygame.draw.line(screen, white, (i * box, 0), (i * box, size), 5)
-        # Dessin des symboles sur la grille
     for y in range(grid):
         for x in range(grid):
             if board[y][x] == "X":
-                # Dessine un "X"
                 pygame.draw.line(screen, white, (x * box + 50, y * box + 50), ((x + 1) * box - 50, (y + 1) * box - 50), 6)
                 pygame.draw.line(screen, white, ((x + 1) * box - 50, y * box + 50), (x * box + 50, (y + 1) * box - 50), 6)
             elif board[y][x] == "O":
-                # Dessine un "O"
                 pygame.draw.circle(screen, blue, (x * box + box // 2, y * box + box // 2), box // 2 - 50, 6)
                 
-# Vérifie si une case est vide
+
 def box_good(board, x, y):
     return board[y][x] == ""
 
-# Joue le tour du joueur humain
 def play_turn_player(board, pos):
     
     # Convertit la position en coordonnées de grille
@@ -56,13 +48,11 @@ def play_turn_player(board, pos):
         return True
     return False
 
-# Vérifie si un joueur a gagné
+
 def verify_win(board, symbole):
-    # Vérifie les lignes et colonnes
     for i in range(grid):
         if all(board[i][j] == symbole for j in range(grid)) or all(board[j][i] == symbole for j in range(grid)):
             return True
-        # Vérifie les diagonales
     if all(board[i][i] == symbole for i in range(grid)) or all(board[i][grid - 1 - i] == symbole for i in range(grid)):
         return True
     return False
@@ -108,7 +98,6 @@ def minimax(board, depth, is_max, alpha, beta):
                         break
         return min_eval
     
-# Joue le tour de l'IA en choisissant le meilleur coup
 def play_turn_ai(board):
     best_score = -float("inf")
     best_choice = None
@@ -125,7 +114,7 @@ def play_turn_ai(board):
         x, y = best_choice
         board[y][x] = "O"
         
-# indicateur de tour
+
 def draw_turn_indicator(turn_player):
     font_title = pygame.font.Font("looneytunes.ttf", 30)
     font = pygame.font.SysFont(None, 40)
